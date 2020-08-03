@@ -6,4 +6,4 @@ print(test)
 for i in test:
     print (i)
     #print(test[2])
-print('done')
+print('done', sys.path)
