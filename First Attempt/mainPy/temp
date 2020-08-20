@@ -1,0 +1,52 @@
+
+
+
+def openVCARDfile(file_path):
+    global file2
+    file2 = open(file_path, 'rt')
+
+
+def closeVCARDfile ():
+    file2.close()
+    print('--------->   VCARD File Closed')
+
+def findNameinFile (dobListFull):
+    destFile = open('finalDestFile.vcf', 'at')
+    flag = 0
+    condition = 0
+    i=0
+    for line in file2:
+
+        destFile.write(line)
+        i=i+1
+        if line[:3:] == 'FN:' :
+            flag = 1
+            fullName = line[3::].split(' ',1)
+            print(fullName)
+            name = fullName[0]
+            print(name)
+            if len(fullName)>1:
+                lastName = fullName[1]
+                lastName = lastName[:-1:]
+                print(lastName)
+            else:
+                lastName = ''
+                print('No last name for: ', name)
+
+            if name == nameList[0] and lastName == nameList[1]:
+                print(nameList[0], ' ', nameList[1],"Name Found")
+                input('press any key ...')
+                condition = 1
+                textTobeWritten = 'BDAY:'+dobList[0]+'-'+dobList[1]+'-'+dobList[2]+'\n'
+                print(textTobeWritten)
+
+        if flag == 1 and condition == 1 and line[:4:] == 'TEL;':
+            try:
+                destFile.write(textTobeWritten)
+                print ('written at line', i)
+                condition = 0
+                flag = 0
+            except:
+                print('Fucked')
+
+    print(nameList[0],'-->',nameList[1])
